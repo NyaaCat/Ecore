@@ -46,13 +46,6 @@
         </dependency>
     </dependencies>
 
-    <pluginRepositories>
-        <pluginRepository>
-            <id>maven-snapshots</id>
-            <url>https://repository.apache.org/content/repositories/snapshots/</url>
-        </pluginRepository>
-    </pluginRepositories>
-
     <build>
         <plugins>
             <plugin>
@@ -127,8 +120,8 @@
     <distributionManagement>
         <repository>
             <id>github-package</id>
-            <name>Github Package</name>
             <url>${env.GITHUB_MAVEN_URL}</url>
+            <!-- refer to .github/workflows/maven-publish-ghpkg.yml -->
         </repository>
     </distributionManagement>
 </project>
