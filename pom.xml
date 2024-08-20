@@ -13,6 +13,8 @@
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <github.package.url>${env.GITHUB_MAVEN_URL}</github.package.url>
+        <maven.local.dir>${env.MAVEN_DIR}</maven.local.dir>
     </properties>
 
     <repositories>
@@ -116,12 +118,25 @@
             </resource>
         </resources>
     </build>
-
-    <distributionManagement>
-        <repository>
-            <id>github-package</id>
-            <url>${env.GITHUB_MAVEN_URL}</url>
-            <!-- refer to .github/workflows/maven-publish-ghpkg.yml -->
-        </repository>
-    </distributionManagement>
+    <profiles>
+        <profile>
+            <id>deploy-github</id>
+            <distributionManagement>
+                <repository>
+                    <id>github-package</id>
+                    <url>${github.package.url}</url>
+                    <!-- refer to .github/workflows/github-publishpackage.yml -->
+                </repository>
+            </distributionManagement>
+        </profile>
+        <profile>
+            <id>deploy-local</id>
+            <distributionManagement>
+                <repository>
+                    <id>laven-local</id>
+                    <url>file://${maven.local.dir}</url>
+                </repository>
+            </distributionManagement>
+        </profile>
+    </profiles>
 </project>

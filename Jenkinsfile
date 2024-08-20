@@ -3,17 +3,18 @@ pipeline {
     stages {
             stage('Build') {
                 tools {
-                    jdk "jdk17"
+                    jdk "jdk21"
+                    maven "apache-maven-3.9.9"
                 }
                 steps {
-                    sh 'mvn -DmavenLocalDistDir=${MAVEN_DIR} deploy'
+                    sh 'mvn deploy --batch-mode -Pdeploy-local'
                 }
             }
         }
 
     post {
            always {
-               archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
+               archiveArtifacts artifacts: 'target/ecore-*.jar', fingerprint: true
                cleanWs()
            }
     }
